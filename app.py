@@ -17,24 +17,26 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 _loaded_models = {}
 
 def get_model(task):
-    # Clear previous model to free RAM
-    if task not in _loaded_models and len(_loaded_models) > 0:
+    if task not in _loaded_models:
         _loaded_models.clear()
         gc.collect()
-        torch.cuda.empty_cache()
 
-    if task not in _loaded_models:
-        if task == "mammogram":
-            _loaded_models[task] = load_learner("models/mammogram_model.pkl", cpu=True)
+        torch.set_num_threads(1)
+        torch.backends.cudnn.enabled = False
 
-        elif task == "xray":
-            _loaded_models[task] = load_learner("models/Chest_Xray.pkl", cpu=True)
+        model_path = {
+            "mammogram": "models/mammogram_model.pkl",
+            "xray": "models/Chest_Xray.pkl",
+            "eye": "models/Eyes_Defects_model.pkl"
+        }.get(task)
 
-        elif task == "eye":
-            _loaded_models[task] = load_learner("models/Eyes_Defects_model.pkl", cpu=True)
-
-        else:
+        if not model_path:
             return None
+
+        learn = load_learner(model_path, cpu=True)
+        learn.model.eval()
+
+        _loaded_models[task] = learn
 
     return _loaded_models[task]
 
