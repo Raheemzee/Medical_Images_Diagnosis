@@ -7,30 +7,34 @@
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(120deg, #f4f8fc, #e8f0ff);
+      background: radial-gradient(circle at top, #111 0%, #000 70%);
       margin: 0;
       padding: 0;
+      color: #eaeaea;
     }
 
     .container {
-      max-width: 900px;
-      margin: 50px auto;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      padding: 40px;
+      max-width: 1000px;
+      margin: 60px auto;
+      background: rgba(20, 20, 20, 0.85);
+      backdrop-filter: blur(14px);
+      border-radius: 20px;
+      padding: 45px;
+      box-shadow: 0 0 60px rgba(0, 140, 255, 0.15);
     }
 
     h1 {
       text-align: center;
-      color: #0a3d62;
-      margin-bottom: 10px;
+      font-size: 36px;
+      margin-bottom: 8px;
+      color: #4da3ff;
     }
 
-    p.subtitle {
+    .subtitle {
       text-align: center;
-      color: #555;
+      color: #aaa;
       margin-bottom: 40px;
+      font-size: 15px;
     }
 
     form {
@@ -39,61 +43,69 @@
     }
 
     select, input[type="file"] {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #0f0f0f;
+      border: 1px solid #333;
+      color: #eee;
+      font-size: 15px;
     }
 
     button {
-      padding: 14px;
-      border-radius: 10px;
+      padding: 15px;
+      border-radius: 12px;
       border: none;
-      background: #0a3d62;
+      background: linear-gradient(135deg, #4da3ff, #0066ff);
       color: white;
       font-size: 16px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     button:hover {
-      background: #065a8d;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(77, 163, 255, 0.4);
     }
 
-    .result {
+    .results {
       margin-top: 40px;
-      padding: 25px;
-      border-radius: 12px;
-      background: #f1f6ff;
-      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
     }
 
-    .result h2 {
-      color: #0a3d62;
-      margin-bottom: 10px;
+    .card {
+      background: #0d0d0d;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    }
+
+    .card img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .prediction {
+      font-size: 18px;
+      color: #4da3ff;
+      font-weight: 600;
     }
 
     .confidence {
-      font-size: 18px;
-      color: #333;
-    }
-
-    .preview {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .preview img {
-      max-width: 300px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      font-size: 14px;
+      color: #bbb;
+      margin-top: 4px;
     }
 
     footer {
       text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-      color: #777;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #666;
     }
   </style>
 </head>
@@ -112,19 +124,20 @@
       <option value="eye">Eye Defect Detection</option>
     </select>
 
-    <input type="file" name="image" accept="image/*" required>
+    <input type="file" name="images" accept="image/*" multiple required>
 
     <button type="submit">Run AI Diagnosis</button>
   </form>
 
-  {% if prediction %}
-  <div class="result">
-    <h2>Prediction: {{ prediction }}</h2>
-    <p class="confidence">Confidence: {{ confidence }}</p>
-
-    <div class="preview">
-      <img src="{{ image_path }}">
+  {% if results %}
+  <div class="results">
+    {% for r in results %}
+    <div class="card">
+      <img src="{{ r.image_path }}">
+      <div class="prediction">{{ r.prediction }}</div>
+      <div class="confidence">Confidence: {{ r.confidence }}</div>
     </div>
+    {% endfor %}
   </div>
   {% endif %}
 </div>
