@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medical AI Diagnostic Hub</title>
+
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(120deg, #f4f8fc, #e8f0ff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0a3d62;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    form {
+      display: grid;
+      gap: 20px;
+    }
+
+    select, input[type="file"] {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      background: #0a3d62;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #065a8d;
+    }
+
+    .result {
+      margin-top: 40px;
+      padding: 25px;
+      border-radius: 12px;
+      background: #f1f6ff;
+      text-align: center;
+    }
+
+    .result h2 {
+      color: #0a3d62;
+      margin-bottom: 10px;
+    }
+
+    .confidence {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .preview {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .preview img {
+      max-width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Medical AI Diagnostic Hub</h1>
+  <p class="subtitle">Breast Cancer • Chest X-ray • Eye Defect Classification</p>
+
+  <form method="POST" enctype="multipart/form-data">
+    <select name="task" required>
+      <option value="">Select Diagnostic Task</option>
+      <option value="mammogram">Breast Cancer (Mammogram)</option>
+      <option value="xray">Chest X-ray Disease</option>
+      <option value="eye">Eye Defect Detection</option>
+    </select>
+
+    <input type="file" name="image" accept="image/*" required>
+
+    <button type="submit">Run AI Diagnosis</button>
+  </form>
+
+  {% if prediction %}
+  <div class="result">
+    <h2>Prediction: {{ prediction }}</h2>
+    <p class="confidence">Confidence: {{ confidence }}</p>
+
+    <div class="preview">
+      <img src="{{ image_path }}">
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<footer>
+  © 2025 Medical AI Platform • Research Use Only
+</footer>
+
+</body>
+</html>
