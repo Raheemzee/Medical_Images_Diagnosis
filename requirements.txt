@@ -1,13 +1,13 @@
-flask==3.0.3
-gunicorn==21.2.0
+flask
+gunicorn
 
-fastai==2.7.15
-torch==2.1.2
-torchvision==0.16.2
+fastai
+torch
+torchvision
 
-pillow==10.2.0
-numpy==1.26.4
-scipy==1.11.4
+pillow
+numpy
+scipy
 
-matplotlib==3.8.3
-scikit-learn==1.4.1.post1
+matplotlib
+scikit-learn
